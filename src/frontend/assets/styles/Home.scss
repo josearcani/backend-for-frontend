@@ -24,3 +24,7 @@ body {
   letter-spacing: 1px;
   margin: 10px 0;
 }
+
+::-webkit-scrollbar {
+  display: none;
+}
