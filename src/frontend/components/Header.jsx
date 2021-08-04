@@ -19,9 +19,12 @@ const Header = (props) => {
   const hasUser = Object.keys(user).length > 0;
 
   const handleLogout = () => {
-    // mandamos un objeto vacio reiniciando el estado
-    // estamos simulando un logout y login
+    document.cookie = 'email=';
+    document.cookie = 'name=';
+    document.cookie = 'id=';
+    document.cookie = 'token=';
     props.logoutRequest({});
+    window.location.href = '/login';
   };
 
   //  validaciones para ver si se encuentra en login y registro
