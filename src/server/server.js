@@ -198,6 +198,23 @@ app.post('/auth/sign-up', async (req, res, next) => {
   }
 });
 
+app.post('/user-movies', async (req, res, next) => {
+  try {
+    const { body: userMovie } = req;
+    const { token } = req.cookies;
+    // userMovie.userId = id;
+    const { data } = await axios({
+      url: `${process.env.API_URL}/api/user-movies`,
+      headers: { Authorization: `Bearer ${token}` },
+      method: 'post',
+      data: userMovie,
+    });
+    res.status(201).json(data);
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.get('*', renderApp);
 
 app.listen(PORT, (err) => {

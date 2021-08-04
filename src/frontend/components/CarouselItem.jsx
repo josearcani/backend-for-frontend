@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 // concectar la app con connect
 import { connect } from 'react-redux';
-import { setFavorite, deleteFavorite } from '../actions';
+import { setFavoriteMovie, deleteFavorite } from '../actions';
 
 import playIcon from '../assets/static/play-icon.png';
 import plusIcon from '../assets/static/plus-icon.png';
@@ -13,11 +13,18 @@ import removeIcon from '../assets/static/remove-icon.png';
 import '../assets/styles/components/CarouselItem.scss';
 
 const CarouselItem = (props) => {
-  const { title, cover, year, contentRating, duration, id, isList } = props;
+  const { _id, title, cover, year, contentRating, duration, id, isList } = props;
 
   const handleSetFavorite = () => {
-    props.setFavorite({
-      title, cover, year, contentRating, duration, id,
+    props.setFavoriteMovie({
+      movieId: _id,
+      // userId: '6109cc5fe5c81709a95e4f9a',
+      title,
+      cover,
+      year,
+      contentRating,
+      duration,
+      id,
     });
   };
 
@@ -76,7 +83,7 @@ CarouselItem.propTypes = {
 
 const mapDispatchToProps = {
   // retorna un objeto que sera props del componente con valores que son las acciones
-  setFavorite,
+  setFavoriteMovie,
   deleteFavorite,
 };
 

@@ -70,4 +70,25 @@ export const loginUser = ({ email, password }, redirectUrl) => {
   };
 };
 
+export const setFavoriteMovie = ({ movieId, id, title, cover, year, contentRating, duration }) => {
+  const userId = document.cookie.match(new RegExp('(^| )id=([^;]+)'))[2];
+  const userMovie = {
+    userId,
+    movieId,
+  };
+  return (dispatch) => {
+    axios({
+      url: '/user-movies',
+      method: 'post',
+      data: userMovie,
+    })
+      .then(({ data }) => {
+        console.log(data);
+        console.log(document.cookie);
+        dispatch(setFavorite({ id, title, cover, year, contentRating, duration }));
+      })
+      .catch((error) => dispatch(setError(error)));
+  };
+};
+
 export { setFavorite as default };
