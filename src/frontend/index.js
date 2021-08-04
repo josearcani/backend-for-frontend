@@ -21,7 +21,7 @@ const renderMethod = module.hot ? ReactDOM.render : ReactDOM.hydrate;
 renderMethod(
   <Provider store={store}>
     <Router history={history}>
-      <App />
+      <App isLogged={(preloadedState.user.id)} />
     </Router>
   </Provider>,
   document.getElementById('app'),

@@ -49,7 +49,7 @@ export const registerUser = (payload, redirectUrl) => {
 export const loginUser = ({ email, password }, redirectUrl) => {
   return (dispatch) => {
     axios({
-      url: 'auth/sign-in',
+      url: '/auth/sign-in',
       method: 'post',
       auth: {
         username: email,

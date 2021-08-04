@@ -15,7 +15,7 @@ import { renderRoutes } from 'react-router-config'; // recibe un array de rutas 
 
 import config from './config';
 import reducer from '../frontend/reducer';
-import initialState from '../frontend/initialState';
+
 import serverRoutes from '../frontend/routes/serverRoutes';
 import getManifest from './getManifest';
 
@@ -95,13 +95,35 @@ const setResponse = (html, preloadedState, manifest) => {
 };
 
 const renderApp = (req, res) => {
-  // definimos el store pero sin usar los dev tools de redux
+  let initialState;
+
+  const { email, name, id } = req.cookies;
+
+  if (id) {
+    initialState = {
+      user: {
+        email, name, id,
+      },
+      myList: [],
+      trends: [],
+      originals: [],
+    };
+  } else {
+    initialState = {
+      user: {},
+      myList: [],
+      trends: [],
+      originals: [],
+    };
+  }
+
   const store = createStore(reducer, initialState);
   const preloadedState = store.getState(); // sera pasado al frontend
+  const isLogged = (initialState.user.id); // sera boleano
   const html = renderToString(
     <Provider store={store}>
       <StaticRouter location={req.url} context={{}}>
-        {renderRoutes(serverRoutes)}
+        {renderRoutes(serverRoutes(isLogged))}
       </StaticRouter>
     </Provider>,
   );
