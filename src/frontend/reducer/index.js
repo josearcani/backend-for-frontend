@@ -2,16 +2,12 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_FAVORITE': {
       // para evitar tener items repetidos en myList
-      const arr = state.myList.map((item) => item.id);
-      if (arr.includes(action.payload.id)) return state;
+      const exist = state.myList.find((item) => item.id === action.payload.id);
+      if (exist) return { ...state };
       return {
-        // traemos el state previo
         ...state,
-        // que elemento voy a actualizar
         myList: [
-          // traemos el state previo de myList
           ...state.myList,
-          // añadimos la infomación de la acción
           action.payload,
         ],
       };

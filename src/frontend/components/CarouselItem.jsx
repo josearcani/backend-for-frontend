@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 // concectar la app con connect
 import { connect } from 'react-redux';
-import { setFavoriteMovie, deleteFavorite } from '../actions';
+import { postFavorite, deleteFavorite } from '../actions';
 
 import playIcon from '../assets/static/play-icon.png';
 import plusIcon from '../assets/static/plus-icon.png';
@@ -13,19 +13,26 @@ import removeIcon from '../assets/static/remove-icon.png';
 import '../assets/styles/components/CarouselItem.scss';
 
 const CarouselItem = (props) => {
-  const { _id, title, cover, year, contentRating, duration, id, isList } = props;
+  const { id, title, cover, year, contentRating, duration, _id, isList, user, myList } = props;
 
   const handleSetFavorite = () => {
-    props.setFavoriteMovie({
-      movieId: _id,
-      // userId: '6109cc5fe5c81709a95e4f9a',
-      title,
-      cover,
-      year,
-      contentRating,
-      duration,
-      id,
-    });
+
+    const exist = myList.find((item) => item.id === id);
+
+    if (!exist) {
+      const movie = {
+        id,
+        cover,
+        title,
+        year,
+        contentRating,
+        duration,
+        _id,
+      };
+      const userId = user.id;
+
+      props.postFavorite(userId, _id, movie);
+    }
   };
 
   const handleDeleteFavorite = (itemId) => {
@@ -81,10 +88,17 @@ CarouselItem.propTypes = {
   isList: PropTypes.bool,
 };
 
+const mapStateToProps = (state) => {
+  return {
+    myList: state.myList,
+    user: state.user,
+  };
+};
+
 const mapDispatchToProps = {
   // retorna un objeto que sera props del componente con valores que son las acciones
-  setFavoriteMovie,
+  postFavorite,
   deleteFavorite,
 };
 
-export default connect(null, mapDispatchToProps)(CarouselItem);
+export default connect(mapStateToProps, mapDispatchToProps)(CarouselItem);

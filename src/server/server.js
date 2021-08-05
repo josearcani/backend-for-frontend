@@ -203,12 +203,16 @@ app.post('/user-movies', async (req, res, next) => {
     const { body: userMovie } = req;
     const { token } = req.cookies;
     // userMovie.userId = id;
-    const { data } = await axios({
+    const { data, status } = await axios({
       url: `${process.env.API_URL}/api/user-movies`,
       headers: { Authorization: `Bearer ${token}` },
       method: 'post',
       data: userMovie,
     });
+
+    if (status !== 201) {
+      next(boom.badImplementation());
+    };
     res.status(201).json(data);
   } catch (error) {
     next(error);

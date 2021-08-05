@@ -70,8 +70,7 @@ export const loginUser = ({ email, password }, redirectUrl) => {
   };
 };
 
-export const setFavoriteMovie = ({ movieId, id, title, cover, year, contentRating, duration }) => {
-  const userId = document.cookie.match(new RegExp('(^| )id=([^;]+)'))[2];
+export const postFavorite = (userId, movieId, movie) => {
   const userMovie = {
     userId,
     movieId,
@@ -84,8 +83,11 @@ export const setFavoriteMovie = ({ movieId, id, title, cover, year, contentRatin
     })
       .then(({ data }) => {
         console.log(data);
-        console.log(document.cookie);
-        dispatch(setFavorite({ id, title, cover, year, contentRating, duration }));
+        const { data: { movieExists } } = data;
+
+        if (!movieExists) {
+          dispatch(setFavorite(movie));
+        }
       })
       .catch((error) => dispatch(setError(error)));
   };
