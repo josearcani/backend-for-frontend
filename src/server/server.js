@@ -108,11 +108,29 @@ const renderApp = async (req, res) => {
 
     movieList = movieList.data.data;
 
+    let userMovies = await axios({
+      url: `${process.env.API_URL}/api/user-movies/?userId=${id}`,
+      method: 'get',
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    userMovies = userMovies.data.data;
+
+    const myList = [];
+
+    userMovies.forEach((userMovie) => {
+      movieList.forEach((movie) => {
+        if (movie._id === userMovie.movieId) {
+          myList.push(movie);
+        }
+      });
+    });
+
     initialState = {
       user: {
         email, name, id,
       },
-      myList: [],
+      myList,
       trends: movieList.filter((movie) => movie.contentRating === 'PG' && movie._id),
       originals: movieList.filter((movie) => movie.contentRating === 'G' && movie._id),
     };
