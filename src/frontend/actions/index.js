@@ -83,11 +83,22 @@ export const postFavorite = (userId, movieId, movie) => {
     })
       .then(({ data }) => {
         console.log(data);
-        const { data: { movieExists } } = data;
+        dispatch(setFavorite({ ...movie, _id: data.data }));
 
-        if (!movieExists) {
-          dispatch(setFavorite(movie));
-        }
+      })
+      .catch((error) => dispatch(setError(error)));
+  };
+};
+
+export const dropFavorite = (userMovieId, id) => {
+  return (dispatch) => {
+    axios({
+      url: `/user-movies/${userMovieId}`,
+      method: 'delete',
+    })
+      .then(({ data }) => {
+        console.log(data);
+        dispatch(deleteFavorite(id));
       })
       .catch((error) => dispatch(setError(error)));
   };

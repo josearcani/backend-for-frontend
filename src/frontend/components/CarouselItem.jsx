@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 // concectar la app con connect
 import { connect } from 'react-redux';
-import { postFavorite, deleteFavorite } from '../actions';
+import { postFavorite, dropFavorite } from '../actions';
 
 import playIcon from '../assets/static/play-icon.png';
 import plusIcon from '../assets/static/plus-icon.png';
@@ -27,7 +27,6 @@ const CarouselItem = (props) => {
         year,
         contentRating,
         duration,
-        _id,
       };
       const userId = user.id;
 
@@ -36,7 +35,7 @@ const CarouselItem = (props) => {
   };
 
   const handleDeleteFavorite = (itemId) => {
-    props.deleteFavorite(itemId);
+    props.dropFavorite(itemId, id);
   };
 
   return (
@@ -57,7 +56,7 @@ const CarouselItem = (props) => {
                 className='carousel-item__details--img'
                 src={removeIcon}
                 alt='Remove Icon'
-                onClick={() => handleDeleteFavorite(id)}
+                onClick={() => handleDeleteFavorite(_id)}
               />
             ) : (
               <img
@@ -84,7 +83,7 @@ CarouselItem.propTypes = {
   year: PropTypes.number,
   contentRating: PropTypes.string,
   duration: PropTypes.number,
-  id: PropTypes.number,
+  id: PropTypes.string,
   isList: PropTypes.bool,
 };
 
@@ -98,7 +97,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   // retorna un objeto que sera props del componente con valores que son las acciones
   postFavorite,
-  deleteFavorite,
+  dropFavorite,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CarouselItem);

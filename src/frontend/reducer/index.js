@@ -2,7 +2,7 @@ const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_FAVORITE': {
       // para evitar tener items repetidos en myList
-      const exist = state.myList.find((item) => item.id === action.payload.id);
+      const exist = state.myList.find((item) => item._id === action.payload.id);
       if (exist) return { ...state };
       return {
         ...state,
