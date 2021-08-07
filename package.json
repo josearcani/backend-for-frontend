@@ -74,6 +74,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "jest": {
+    "testEnvironment": "jsdom",
     "setupFilesAfterEnv": [
       "<rootDir>/src/frontend/__test__/setupTest.js"
     ],
